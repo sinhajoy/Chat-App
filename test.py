@@ -8,4 +8,5 @@ obj.bags=2
  
 print(obj.__dict__)
 print(obj.__class__)
+print(''c)
 
