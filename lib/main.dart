@@ -9,6 +9,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
+    //THIS IS FOR TEST PERPOSE ONLY
+    return MaterialApp(print("LEARING PRS      "));
   }
 }
