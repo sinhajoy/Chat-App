@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/Screens/Homescreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,7 +10,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //THIS IS FOR TEST PERPOSE ONLY
-    return MaterialApp(print("LEARING PRS      "));
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+          primaryColor: Color(0xFF075E54), accentColor: Color(0xFF128C7E)),
+      home: Homescreen(),
+    );
   }
 }
