@@ -13,7 +13,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          primaryColor: Color(0xFF075E54), accentColor: Color(0xFF128C7E)),
+          fontFamily: "OpenSans",
+          primaryColor: Color(0xFF075E54),
+          accentColor: Color(0xFF128C7E)),
       home: Homescreen(),
     );
   }
