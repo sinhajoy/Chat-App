@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_app/Model/ChatModel.dart';
+import 'package:my_app/Screens/IndividualPage.dart';
 
-class CustomCard extends StatefulWidget {
-  CustomCard({Key? key}) : super(key: key);
+class CustomCard extends StatelessWidget {
+  const CustomCard({Key? key, required this.chatModel}) : super(key: key);
+  final ChatModel chatModel;
 
-  @override
-  _CustomCardState createState() => _CustomCardState();
-}
-
-class _CustomCardState extends State<CustomCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (contex) => IndividualPage()));
+      },
       child: Column(
         children: [
           ListTile(
             leading: CircleAvatar(
               backgroundColor: Colors.blueGrey,
               child: SvgPicture.asset(
-                "assets/groups.svg",
+                chatModel.isGroup ? "assets/groups.svg" : "assets/person.svg",
                 color: Colors.white,
                 height: 38,
                 width: 38,
@@ -27,7 +28,7 @@ class _CustomCardState extends State<CustomCard> {
               radius: 30,
             ),
             title: Text(
-              "Joy Sinha",
+              chatModel.name,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -40,14 +41,14 @@ class _CustomCardState extends State<CustomCard> {
                   width: 3,
                 ),
                 Text(
-                  "Hi Joy Sinha",
+                  chatModel.currentMessage,
                   style: TextStyle(
                     fontSize: 13,
                   ),
                 ),
               ],
             ),
-            trailing: Text("18.04"),
+            trailing: Text(chatModel.time),
           ),
           Padding(
             padding: const EdgeInsets.only(right: 20, left: 20),
