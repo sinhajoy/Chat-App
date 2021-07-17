@@ -15,6 +15,20 @@ class IndividualPage extends StatefulWidget {
 class _IndividualPageState extends State<IndividualPage> {
   FocusNode focusnode = FocusNode();
   bool show = false;
+  TextEditingController _controller = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    focusnode.addListener(() {
+      if (focusnode.hasFocus) {
+        setState(() {
+          show = false;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,81 +128,94 @@ class _IndividualPageState extends State<IndividualPage> {
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        child: Stack(
-          children: [
-            ListView(),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                          width: MediaQuery.of(context).size.width - 60,
-                          child: Card(
-                              margin:
-                                  EdgeInsets.only(left: 2, right: 2, bottom: 8),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25)),
-                              child: TextFormField(
-                                focusNode: focusnode,
-                                textAlignVertical: TextAlignVertical.center,
-                                keyboardType: TextInputType.multiline,
-                                maxLines: 5,
-                                minLines: 1,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Whats in your mind",
-                                  hintStyle: TextStyle(color: Colors.grey),
-                                  prefixIcon: IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          focusnode.unfocus();
-                                          focusnode.canRequestFocus = false;
-                                          show = !show;
-                                        });
-                                      },
-                                      icon:
-                                          Icon(Icons.emoji_emotions_outlined)),
-                                  suffixIcon: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(Icons.attach_file),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(Icons.camera_alt),
-                                      ),
-                                    ],
+        child: WillPopScope(
+          child: Stack(
+            children: [
+              ListView(),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                            width: MediaQuery.of(context).size.width - 60,
+                            child: Card(
+                                margin: EdgeInsets.only(
+                                    left: 2, right: 2, bottom: 8),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25)),
+                                child: TextFormField(
+                                  controller: _controller,
+                                  focusNode: focusnode,
+                                  textAlignVertical: TextAlignVertical.center,
+                                  keyboardType: TextInputType.multiline,
+                                  maxLines: 5,
+                                  minLines: 1,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Whats in your mind",
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    prefixIcon: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            focusnode.unfocus();
+                                            focusnode.canRequestFocus = false;
+                                            show = !show;
+                                          });
+                                        },
+                                        icon: Icon(
+                                            Icons.emoji_emotions_outlined)),
+                                    suffixIcon: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(Icons.attach_file),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(Icons.camera_alt),
+                                        ),
+                                      ],
+                                    ),
+                                    contentPadding: EdgeInsets.all(5),
                                   ),
-                                  contentPadding: EdgeInsets.all(5),
-                                ),
-                              ))),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(bottom: 8, right: 5, left: 2),
-                        child: CircleAvatar(
-                          backgroundColor: Color(0xFF17b3a9),
-                          radius: 25,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.mic,
-                              color: Colors.white,
+                                ))),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              bottom: 8, right: 5, left: 2),
+                          child: CircleAvatar(
+                            backgroundColor: Color(0xFF17b3a9),
+                            radius: 25,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.mic,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {},
                             ),
-                            onPressed: () {},
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  show ? emojiSelect() : Container(),
-                ],
+                      ],
+                    ),
+                    show ? emojiSelect() : Container(),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
+          onWillPop: () {
+            if (show) {
+              setState(() {
+                show = false;
+              });
+            } else {
+              Navigator.pop(context);
+            }
+            return Future.value(false);
+          },
         ),
       ),
     );
@@ -199,7 +226,10 @@ class _IndividualPageState extends State<IndividualPage> {
         rows: 4,
         columns: 7,
         onEmojiSelected: (emoji, category) {
-          print(emoji);
+          //print(emoji);
+          setState(() {
+            _controller.text = _controller.text + emoji.emoji;
+          });
         });
   }
 }
