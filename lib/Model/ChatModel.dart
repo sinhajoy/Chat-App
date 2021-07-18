@@ -1,14 +1,16 @@
 class ChatModel {
   String name;
+  String status;
   String icon;
   bool isGroup;
   String time;
   String currentMessage;
 
   ChatModel(
-      {required this.name,
-      required this.icon,
-      required this.isGroup,
-      required this.time,
-      required this.currentMessage});
+      {this.name = "Default",
+      this.status = "Available",
+      this.icon = "person",
+      this.isGroup = false,
+      this.time = "10.00 PM",
+      this.currentMessage = "bAM VOLE"});
 }
