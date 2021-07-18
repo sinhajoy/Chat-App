@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/CustomUI/ButtonCard.dart';
 import 'package:my_app/CustomUI/ContactCard.dart';
 import 'package:my_app/Model/ChatModel.dart';
 
@@ -13,6 +14,18 @@ class _SelectContactState extends State<SelectContact> {
   @override
   Widget build(BuildContext context) {
     List<ChatModel> contacts = [
+      ChatModel(
+        name: "Avijit Samanta",
+        status: "CEO",
+      ),
+      ChatModel(
+        name: "Bipin Paul",
+        status: "Backend Developer",
+      ),
+      ChatModel(
+        name: "Sunita Samal",
+        status: "VP @ Morgan Stanlye",
+      ),
       ChatModel(
         name: "Avijit Samanta",
         status: "CEO",
@@ -80,8 +93,20 @@ class _SelectContactState extends State<SelectContact> {
         ],
       ),
       body: ListView.builder(
-        itemCount: contacts.length,
-        itemBuilder: (context, index) => ContactCard(contact: contacts[index]),
+        itemCount: contacts.length + 2,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return ButtonCard(
+              icon: Icons.group,
+              name: "New Group",
+            );
+          } else if (index == 1) {
+            return ButtonCard(icon: Icons.person_add, name: "New Contact");
+          }
+          return ContactCard(
+            contact: contacts[index - 2],
+          );
+        },
       ),
     );
   }
