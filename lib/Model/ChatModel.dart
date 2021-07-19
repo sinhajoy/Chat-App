@@ -5,6 +5,7 @@ class ChatModel {
   bool isGroup;
   String time;
   String currentMessage;
+  bool select = false;
 
   ChatModel(
       {this.name = "Default",
@@ -12,5 +13,6 @@ class ChatModel {
       this.icon = "person",
       this.isGroup = false,
       this.time = "10.00 PM",
-      this.currentMessage = "bAM VOLE"});
+      this.currentMessage = "bAM VOLE",
+      this.select = false});
 }

@@ -32,6 +32,11 @@ dependencies:
   flutter_svg: ^0.22.0
   emoji_picker: ^0.1.0
   shared_preferences: ^0.5.12+4
+  camera: ^0.8.1+5
+  camera_platform_interface: ^2.0.0
+  path_provider: ^1.6.28
+  path:
+  
 
 dev_dependencies:
   flutter_test:
