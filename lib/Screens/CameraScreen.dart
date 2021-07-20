@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/Pages/CameraPage.dart';
+import 'package:my_app/Screens/CameraView.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -17,6 +18,7 @@ class _CameraScreenState extends State<CameraScreen> {
   CameraController _cameraController =
       CameraController(cameras[1], ResolutionPreset.high);
   late Future<void> cameraValue;
+  bool isRecording = false;
 
   @override
   void initState() {
@@ -68,13 +70,25 @@ class _CameraScreenState extends State<CameraScreen> {
                             color: Colors.white,
                             size: 28,
                           )),
-                      InkWell(
-                        onTap: () {},
-                        child: Icon(
-                          Icons.panorama_fish_eye,
-                          color: Colors.white,
-                          size: 70,
-                        ),
+                      GestureDetector(
+                        onLongPress: () async {
+                          final path = join(
+                              (await getTemporaryDirectory()).path,
+                              "${DateTime.now()}.mp4");
+                          await _cameraController.startVideoRecording();
+                          //videoFile.saveTo(path);
+                        },
+                        onLongPressUp: () {},
+                        onTap: () {
+                          takePhoto(context);
+                        },
+                        child: isRecording
+                            ? Icon(Icons.radio_button_on)
+                            : Icon(
+                                Icons.panorama_fish_eye,
+                                color: Colors.white,
+                                size: 70,
+                              ),
                       ),
                       IconButton(
                           onPressed: () {},
@@ -104,9 +118,16 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
-  void takePhoto() async {
+  void takePhoto(BuildContext context) async {
     final path =
         join((await getTemporaryDirectory()).path, "${DateTime.now()}.png");
-    await _cameraController.takePicture();
+    XFile picture = await _cameraController.takePicture();
+    picture.saveTo(path);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (builder) => CameraView(
+                  path: path,
+                )));
   }
 }
