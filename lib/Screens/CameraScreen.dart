@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/Pages/CameraPage.dart';
 import 'package:my_app/Screens/CameraView.dart';
+import 'package:my_app/Screens/VideoView.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -72,18 +73,42 @@ class _CameraScreenState extends State<CameraScreen> {
                           )),
                       GestureDetector(
                         onLongPress: () async {
+                          //_cameraController.prepareForVideoRecording();
+                          await _cameraController.startVideoRecording();
+                          setState(() {
+                            isRecording = true;
+                          });
+                          //videoFile.saveTo(path);
+                        },
+                        onLongPressUp: () async {
                           final path = join(
                               (await getTemporaryDirectory()).path,
                               "${DateTime.now()}.mp4");
-                          await _cameraController.startVideoRecording();
-                          //videoFile.saveTo(path);
+
+                          XFile videoFile =
+                              await _cameraController.stopVideoRecording();
+                          videoFile.saveTo(path);
+                          setState(() {
+                            print(videoFile);
+                            print(path);
+                            isRecording = false;
+                          });
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (builder) => VideoView(
+                                        path: path,
+                                      )));
                         },
-                        onLongPressUp: () {},
                         onTap: () {
-                          takePhoto(context);
+                          if (!isRecording) takePhoto(context);
                         },
                         child: isRecording
-                            ? Icon(Icons.radio_button_on)
+                            ? Icon(
+                                Icons.radio_button_on,
+                                color: Colors.red,
+                                size: 80,
+                              )
                             : Icon(
                                 Icons.panorama_fish_eye,
                                 color: Colors.white,
