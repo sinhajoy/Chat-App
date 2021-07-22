@@ -2,7 +2,8 @@
     package="com.example.my_app">
    <application
         android:label="my_app"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:cleartextTrafficPermitted="true">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
