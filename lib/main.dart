@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/Screens/CameraScreen.dart';
 import 'package:my_app/Screens/Homescreen.dart';
+import 'package:my_app/Screens/LoginScreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,10 @@ class MyApp extends StatelessWidget {
           fontFamily: "OpenSans",
           primaryColor: Color(0xFF17b3a9),
           accentColor: Color(0xFF128C7E)),
-      home: Homescreen(),
+      home: LoginScreen(),
     );
   }
 }
+
+
+    
